@@ -6,8 +6,11 @@ namespace BackupCopying
     {
         static void Main(string[] args)
         {
-            BackupCreator bc = new BackupCreator();
-            bc.Run();
+            Console.WriteLine("Добро пожаловать в программу резервного копирования");
+            BackupCreator backupCreator = new BackupCreator();
+            backupCreator.Run();
+            Console.WriteLine("Для выхода из приложения нажмите Enter...");
+            Console.ReadLine();
         }
     }
 }

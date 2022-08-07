@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO.Compression;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace BackupCopying
 {
     internal class BackupCreator
     {
-        private string settingsFile = ""
-        private string[] pathFrom;
-        private string pathTo = "C:\\copyTo";
+        private Setting settings;
+        private string settingsFile;
 
         public BackupCreator()
         {
-            using (JsonDocument document = JsonDocument.Parse(settingsFile))
-            {
-                JsonElement root = document.RootElement;
-                JsonElement pathFromElement = root.GetProperty("PathFrom");
-            }
+            if (File.Exists("Settings.json")) settingsFile = Environment.CurrentDirectory + "\\Settings.json";
+            string json = File.ReadAllText(settingsFile);
+            settings = JsonConvert.DeserializeObject<Setting>(json);
         }
         public void Run()
         {
-            copyFileToTemp(pathFrom);
-
+            Console.WriteLine("Начало резервного копирования...");
+            string tempDirectory = settings.PathTo+"\\" + DateTime.Now.ToString("dd_MM_yyyy");
+            foreach (string pathFrom in settings.PathFrom)
+            {
+                copyFileToTemp(pathFrom, tempDirectory);
+            }
+            ZipFile.CreateFromDirectory(tempDirectory, tempDirectory+".zip");
+            Directory.Delete(tempDirectory, true);
 
         }
 
-        private void copyFileToTemp(string pathFrom)
+        private void copyFileToTemp(string pathFrom, string pathTo)
         {
             //Воссоздание иерархии папок аналогичной исходному каталогу
             foreach (string path in Directory.GetDirectories(pathFrom, "*", SearchOption.AllDirectories))
