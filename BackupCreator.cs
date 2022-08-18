@@ -17,6 +17,7 @@ namespace BackupCopying
             if (!File.Exists("Settings.json"))
             {
                 Console.WriteLine("Файл Settings.json с настройками не найден");
+                Environment.Exit(1);
             }
             settingsFile = Environment.CurrentDirectory + "\\Settings.json";
             string json = File.ReadAllText(settingsFile);
@@ -27,7 +28,7 @@ namespace BackupCopying
         {
             Console.WriteLine("Начало резервного копирования...");
             logger.Log("Начало резервного копирования...", 2);
-            string tempDirectory = settings.PathTo+"\\" + DateTime.Now.ToString("dd_MM_yyyy");
+            string tempDirectory = settings.PathTo+"\\" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss");
             foreach (string pathFrom in settings.PathFrom)
             {
                 string message = "Копирование директории " + pathFrom + " в во временную директорию " + settings.PathTo;

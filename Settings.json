@@ -1,0 +1,5 @@
+{
+	"PathFrom":["CopyFrom"],
+	"PathTo":"CopyTo",
+	"LevelEventToWrite":3
+}
