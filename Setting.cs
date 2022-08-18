@@ -7,5 +7,6 @@ namespace BackupCopying
     {
         public string[] PathFrom { get; set; }
         public string PathTo { get; set; }
+        public uint LevelEventToWrite { get; set; }
     }
 }
